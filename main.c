@@ -6,7 +6,7 @@
 #include <string.h>
 #include <assert.h>
 
-#define MAXDESTINATIONS 10
+#define MAXDESTINATIONS 200
 #define BUFFER_SIZE 1000
 #define MAX 10
 #define MAXSUM 20
@@ -22,11 +22,12 @@ int dest_qty[MAXDESTINATIONS];
 void choiceMain(void);
 int dest_lines = 0;
 
+#include "codes/structs.h"
+#include "codes/salesReport.c"
 #include "codes/UIdesigns.c"
 #include "codes/manageDest.c"
 #include "codes/reserveTicket.c"
 #include "codes/buyTicket.c"
-#include "codes/salesReport.c"
 #include "codes/mainMenu.c"
 
 //FUNCTIONS
@@ -56,11 +57,3 @@ int main(void)
 	choiceMain();
 	return 0;
 }
-
-//------------------MAIN SCREEN CHOICES------------------------
-
-//=========================================
-
-//==========================================NO RESERVATION
-
-//===================FUNCTIONS OF FUNCTIONS=====================

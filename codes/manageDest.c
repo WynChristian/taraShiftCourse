@@ -1,13 +1,15 @@
 
-void anotherRecord(void);
-void manageDesti(void);
+void anotherRecord(Report (*)[], int *);
+void manageDesti(Report (*)[], int *);
 void deleteLine(FILE *, FILE *, const int);
 //SUBPROGS NA PART NG MANAGE DESTI
-void addNewDesti(void)
+
+void addNewDesti(Report (*report)[], int *total)
 {
   char save_yesno, anotherRec;
-  char addDesti[15];
+  char addDesti[50];
   float addPrice;
+  float addTax;
 
   FILE *readdestcat;
   readdestcat = fopen("destcat.txt", "r");
@@ -29,14 +31,16 @@ void addNewDesti(void)
   }
   fclose(readdestcat);
 
-start:
-  printf("\n\t\t\t Destination Code: %03d", dest_lines + 1); //<system shit>
+  // <promptshit> olraayyt
+  printf("\n\t\t\t Destination Code: %03d", dest_lines + 1);
   printf("\n\t\t\t Enter new destination: ");
   scanf("%s", addDesti);
   printf("\n\t\t\t Enter price ticket: ");
   scanf("%f", &addPrice);
+  printf("\n\t\t\t Enter travel tax: ");
+  scanf("%f", &addTax);
 
-  float addTax = 0.10;
+  addTax *= 0.01;
 
   printf("\n\t\t\t SAVE this RECORD[y/n]? ");
   scanf("%s", &save_yesno);
@@ -49,15 +53,25 @@ start:
       printf("\nFailed to open file.\n");
       exit(1);
     }
-    fprintf(inFile, "\n%s\t\t%.2f\t\t%.2f", addDesti, addPrice, addTax);
+    fprintf(inFile, "\n%-15s %-10.2f %.2f", addDesti, addPrice, addTax);
     fclose(inFile);
+
+    // NEW: append in salesReport
+    int index = *total;
+    strcpy((*report)[index].destination, addDesti);
+    (*report)[index].quantity = 0;
+    (*report)[index].amount = 0;
+    (*report)[index].tax = 0;
+    *total += 1;
+    printf("\nTESTING (*report)[%d]", index);
+    printf("\nTESTING \t dest = %s", (*report)[index].destination);
   }
 
-  anotherRecord();
+  anotherRecord(report, total);
   return;
 }
 
-void anotherRecord(void)
+void anotherRecord(Report (*report)[], int *total)
 {
   char anotherRec;
   printf("\n\t\t\t Another Record [y/n]: ");
@@ -65,14 +79,14 @@ void anotherRecord(void)
 
   if (anotherRec == 'Y' || anotherRec == 'y')
   {
-    addNewDesti();
+    addNewDesti(report, total);
   }
   else if (anotherRec == 'N' || anotherRec == 'n')
 
   {
     printf("\n\t\t\t\t Press any key to RETURN.");
     _getch();
-    manageDesti();
+    manageDesti(report, total);
   }
   else
   {
@@ -217,7 +231,7 @@ void deleteDesti(void)
     {
       printf("\n\n\t\t\t  press any key to RETURN");
       _getch();
-      manageDesti();
+      return;
     }
 
     else
@@ -225,7 +239,7 @@ void deleteDesti(void)
       printf("\n\t\t\t\t Invalid keyword");
       printf("\n\t\t\t\t Press any key to RETURN.");
       _getch();
-      manageDesti();
+      return;
     }
 
   } while (anotherRec == 'Y' || anotherRec == 'y');
@@ -234,14 +248,14 @@ void deleteDesti(void)
   {
     printf("\n\t\t\t\t Press any key to RETURN.");
     _getch();
-    manageDesti();
+    return;
   }
   else
   {
     printf("\n\t\t\t\t Invalid keyword");
     printf("\n\t\t\t\t Press any key to RETURN.");
     _getch();
-    manageDesti();
+    return;
   }
   return;
 }
@@ -299,11 +313,11 @@ void displayAll(void)
 
   printf("\n\t\t\t\t  press any key to RETURN");
   _getch();
-  manageDesti();
+
   return;
 }
 
-void manageDesti(void)
+void manageDesti(Report (*report)[], int *total)
 {
   system("cls");
   printUnderscore();
@@ -324,7 +338,7 @@ void manageDesti(void)
   {
   case 1:
     system("cls");
-    addNewDesti();
+    addNewDesti(report, total);
     break;
   case 2:
     system("cls");
@@ -347,6 +361,6 @@ void manageDesti(void)
     printf("\n\t\t\t  Your choice is not available!\n"); //choice of destination is not within case 1 to case 5
     break;
   }
-  manageDesti();
+  manageDesti(report, total);
   return;
 }

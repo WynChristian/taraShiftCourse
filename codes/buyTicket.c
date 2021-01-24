@@ -1,14 +1,7 @@
 // typedef struct info Info;
-typedef struct info
-{
-  char destination[100];
-  int age;
-  float price;
-  float tax;
-} Info;
 
 // main function
-void buyTicket(void);
+void buyTicket(Report (*)[], int *);
 
 // reserve
 
@@ -16,11 +9,11 @@ void reserved(void);
 int scanData(FILE *, Info *);
 
 // no reserve
-void noReservation(void);
-void getTotalPrice(int, int);
+void noReservation(Report (*)[], int *);
+void getTotalPrice(int, int, Report (*)[], int *);
 
 //SUBPROGS NA PART NG BUY TICKET
-void buyTicket(void)
+void buyTicket(Report (*report)[], int *total)
 {
   // system("cls");
   // printUnderscore();
@@ -41,7 +34,7 @@ void buyTicket(void)
     break;
   case 2:
     system("cls");
-    noReservation();
+    noReservation(report, total);
     break;
   case 3:
     system("cls");
@@ -52,7 +45,7 @@ void buyTicket(void)
     printf("\n\t\t\t    Your choice is not available!\n");
     break;
   }
-  buyTicket();
+  buyTicket(report, total);
   return;
 }
 
@@ -87,9 +80,10 @@ void reserved(void)
               currentLine.price, currentLine.tax);
     }
     fclose(transactionFile);
-    // printf("\n\t\t\t\t Press any key to RETURN.");
-    printf("\nTESTING sucess");
-    buyTicket();
+    printf("\n\t\t\t\t Press any key to RETURN.");
+    getch();
+    // printf("\nTESTING sucess");
+    return;
   }
 
   else if (proceedToBuyTicket == 'N' || proceedToBuyTicket == 'n')
@@ -97,7 +91,7 @@ void reserved(void)
 
     printf("\n\t\t\t\t Press any key to RETURN.");
     _getch();
-    buyTicket();
+    return;
   }
   else
   {
@@ -133,7 +127,7 @@ int scanData(FILE *file, Info *data)
   }
 }
 
-void getTotalPrice(int ppd, int userDesti)
+void getTotalPrice(int ppd, int userDesti, Report (*report)[], int *total)
 {
   //int userDesti;
   int i = 0, j = 0, k = 0;
@@ -326,7 +320,7 @@ void getTotalPrice(int ppd, int userDesti)
 
   for (i = 0; i < count; i++)
   {
-    fprintf(sales, "\n%s\t\t%d\t%.2f\t\t%.2f", dest_name[userDesti], age[i], ticketAmt[i], travelTax[i]);
+    fprintf(sales, "%-15s %-8d %-10.2f %.2f\n", dest_name[userDesti], age[i], ticketAmt[i], travelTax[i]);
     //fprintf(reserve, "\n%s\t%d\t%.2f\t\t%.2f", dest_name[userDesti],age[i],ticketAmt[i],travelTax[i]);
   }
   fclose(sales);
@@ -334,7 +328,7 @@ void getTotalPrice(int ppd, int userDesti)
   return;
 }
 
-void noReservation(void)
+void noReservation(Report (*report)[], int *total)
 {
   int userDesti;
   printUnderscore();
@@ -383,7 +377,7 @@ void noReservation(void)
     printf("\n\t\t\t    Your flight destination is not available.");
     printf("\n\t\t\t\t press any key to RETURN");
     _getch();
-    buyTicket();
+    return;
   }
   else if (userDesti == dest_lines)
   {
@@ -394,12 +388,12 @@ void noReservation(void)
     userDesti = userDesti - 1;
     int ppd = atoi(dest_ppd[userDesti]);
 
-    getTotalPrice(ppd, userDesti);
+    getTotalPrice(ppd, userDesti, report, total);
 
     // calculateTravelTax(totalPrice,resDesti);
     printf("\n\t\t\t\t press any key to RETURN");
     _getch();
-    buyTicket();
+    return;
   }
   return;
 }

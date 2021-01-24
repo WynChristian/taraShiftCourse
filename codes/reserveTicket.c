@@ -8,8 +8,7 @@ void reserveTicket(int dest_lines)
   // printUnderscore();
   printf("\n\t\t\t\t      FLIGHT DESTINATION\n");
 
-  FILE *destcat;
-  destcat = fopen("destcat.txt", "r");
+  FILE *destcat = fopen("destcat.txt", "r");
 
   if (destcat == NULL)
   {
@@ -20,7 +19,7 @@ void reserveTicket(int dest_lines)
   int i = 0;
   for (i = 0; i < MAXDESTINATIONS; i++)
   {
-    fscanf(destcat, "%64s\t%64s\t\t%64s", dest_name[i], dest_ppd[i], dest_ttx[i]);
+    fscanf(destcat, "%s %s %s", dest_name[i], dest_ppd[i], dest_ttx[i]);
 
     if (feof(destcat))
     {
@@ -271,6 +270,7 @@ void getResTotalPrice(int ppd, int userDesti, int code)
 
   for (i = 0; i < count; i++)
   {
+
     fprintf(backEnd, "%-15s %-8d %-10.2f %.2f\n",
             dest_name[userDesti], age[i], ticketAmt[i], travelTax[i]);
     fprintf(reserve, "\n%s\t%d\t%.2f\t\t%.2f", dest_name[userDesti], age[i], ticketAmt[i], travelTax[i]);

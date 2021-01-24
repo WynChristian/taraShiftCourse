@@ -11,6 +11,11 @@ void choiceMain(void)
   printf("\n\t\t\t\t   5  Exit\n");
   // printEquals();
 
+  Report salesReports[100];
+  int totalCategory = 0;
+
+  initialize(&salesReports, &totalCategory);
+
   int num;
   printf("\n\t\t\t    Input your choice: ");
   scanf("%d", &num);
@@ -19,7 +24,7 @@ void choiceMain(void)
   {
   case 1:
     system("cls");
-    manageDesti();
+    manageDesti(&salesReports, &totalCategory);
     break;
   case 2:
     system("cls");
@@ -27,11 +32,12 @@ void choiceMain(void)
     break;
   case 3:
     system("cls");
-    buyTicket();
+    buyTicket(&salesReports, &totalCategory);
     break;
   case 4:
     system("cls");
-    salesReport();
+    salesReport(&salesReports, &totalCategory);
+    choiceMain();
     break;
   case 5:
     break;
@@ -39,6 +45,7 @@ void choiceMain(void)
   default:
     //choice of destination is not within case 1 to case 5
     printf("\n\t\t\tYour choice is not available!\n");
+    choiceMain();
     break;
   }
 
