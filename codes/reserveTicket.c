@@ -45,12 +45,12 @@ void reserveTicket(int dest_lines)
     printf("\n\t\t\t    Your flight destination is not available.");
     printf("\n\t\t\t\t press any key to RETURN");
     _getch();
-    choiceMain();
+    return;
   }
 
   else if (userDesti == dest_lines)
   {
-    choiceMain();
+    return;
   }
 
   else
@@ -71,13 +71,13 @@ void reserveTicket(int dest_lines)
       printf("\n\t\t\t\tYour reservation code: %d\n", random);
       printf("\n\t\t\t\tpress any key to RETURN");
       _getch();
-      choiceMain();
+      return;
     }
     else
     {
       printf("\n\t\t\t\tpress any key to RETURN");
       _getch();
-      choiceMain();
+      return;
     }
     return;
   }
@@ -132,7 +132,7 @@ void getResTotalPrice(int ppd, int userDesti, int code)
     printf("\n\t\t    You have reached the maximum capacity per transaction.");
     printf("\n\t\t\t\t Press any key to return MAIN.");
     _getch();
-    choiceMain();
+    return;
   }
 
   /*CHILDREN*/
@@ -172,7 +172,7 @@ void getResTotalPrice(int ppd, int userDesti, int code)
     printf("\n\t\t    You have reached the maximum capacity per transaction.");
     printf("\n\t\t\t\t Press any key to return MAIN.");
     _getch();
-    choiceMain();
+    return;
   }
   // MERGE TWO ARRAYS
   /* adultAge */

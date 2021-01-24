@@ -63,8 +63,11 @@ void addNewDesti(Report (*report)[], int *total)
     (*report)[index].amount = 0;
     (*report)[index].tax = 0;
     *total += 1;
-    printf("\nTESTING (*report)[%d]", index);
-    printf("\nTESTING \t dest = %s", (*report)[index].destination);
+    updateReport(report, total);
+
+    // testing
+    // printf("\nTESTING (*report)[%d]", index);
+    // printf("\nTESTING \t dest = %s", (*report)[index].destination);
   }
 
   anotherRecord(report, total);
@@ -354,7 +357,7 @@ void manageDesti(Report (*report)[], int *total)
     break;
   case 5:
     system("cls");
-    choiceMain();
+    return;
     break;
 
   default:

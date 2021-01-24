@@ -1,5 +1,5 @@
 //----------------MAIN Screen----------------
-void choiceMain(void)
+void choiceMain(Report (*report)[], int *total)
 {
   system("cls");
   // printEquals();
@@ -11,11 +11,6 @@ void choiceMain(void)
   printf("\n\t\t\t\t   5  Exit\n");
   // printEquals();
 
-  Report salesReports[100];
-  int totalCategory = 0;
-
-  initialize(&salesReports, &totalCategory);
-
   int num;
   printf("\n\t\t\t    Input your choice: ");
   scanf("%d", &num);
@@ -24,7 +19,7 @@ void choiceMain(void)
   {
   case 1:
     system("cls");
-    manageDesti(&salesReports, &totalCategory);
+    manageDesti(report, total);
     break;
   case 2:
     system("cls");
@@ -32,22 +27,21 @@ void choiceMain(void)
     break;
   case 3:
     system("cls");
-    buyTicket(&salesReports, &totalCategory);
+    buyTicket(report, total);
     break;
   case 4:
     system("cls");
-    salesReport(&salesReports, &totalCategory);
-    choiceMain();
+    salesReport(report, total);
     break;
   case 5:
+    exit(0);
     break;
 
   default:
     //choice of destination is not within case 1 to case 5
     printf("\n\t\t\tYour choice is not available!\n");
-    choiceMain();
-    break;
   }
 
+  choiceMain(report, total);
   return;
 }

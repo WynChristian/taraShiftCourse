@@ -19,7 +19,6 @@ float dest_totalamt[MAXDESTINATIONS];
 float dest_totalttx[MAXDESTINATIONS];
 int dest_qty[MAXDESTINATIONS];
 
-void choiceMain(void);
 int dest_lines = 0;
 
 #include "codes/structs.h"
@@ -54,6 +53,10 @@ int main(void)
 
 	// printf("\n\n\n\t\t\t\tpress any key to continue");
 	// _getch();
-	choiceMain();
+	Report salesReports[100];
+	int totalCategory = 0;
+	initialize(&salesReports, &totalCategory);
+
+	choiceMain(&salesReports, &totalCategory);
 	return 0;
 }

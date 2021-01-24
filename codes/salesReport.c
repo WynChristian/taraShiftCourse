@@ -2,6 +2,7 @@
 void initialize(Report (*)[], int *);
 void salesReport(Report (*)[], int *);
 int readDest(FILE *, Report (*)[], int, int *);
+void updateReport(Report (*)[], int *);
 
 void salesReport(Report (*report)[], int *total)
 {
@@ -83,6 +84,7 @@ void salesReport(Report (*report)[], int *total)
 
 void initialize(Report (*report)[], int *total)
 {
+
   FILE *destinationFile = fopen("destcat.txt", "r");
   int index = 0;
 
@@ -90,6 +92,7 @@ void initialize(Report (*report)[], int *total)
   {
     index += 1;
   }
+  updateReport(report, total);
 }
 
 int readDest(FILE *file, Report (*report)[], int i, int *total)
@@ -125,4 +128,18 @@ int readDest(FILE *file, Report (*report)[], int i, int *total)
     // printf("\nTESTING \t dest = %s", (*report)[i].destination);
     return 1;
   }
+}
+
+void updateReport(Report (*shakeAndBake)[], int *total)
+{
+  FILE *reportFile = fopen("salesReport.txt", "w");
+  fprintf(reportFile, "%-10s %-10s %-10s\n", "FLIGHT", "QUANTITY", "AMOUNT");
+  for (int i = 0; i < *total; i++)
+  {
+    fprintf(reportFile, "\n%-15s %-10d %-10.2f",
+            (*shakeAndBake)[i].destination,
+            (*shakeAndBake)[i].quantity,
+            (*shakeAndBake)[i].amount);
+  }
+  fclose(reportFile);
 }

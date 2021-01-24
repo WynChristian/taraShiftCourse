@@ -11,6 +11,7 @@ int scanData(FILE *, Info *);
 // no reserve
 void noReservation(Report (*)[], int *);
 void getTotalPrice(int, int, Report (*)[], int *);
+int getIndex(char *, Report (*)[], int *);
 
 //SUBPROGS NA PART NG BUY TICKET
 void buyTicket(Report (*report)[], int *total)
@@ -38,7 +39,7 @@ void buyTicket(Report (*report)[], int *total)
     break;
   case 3:
     system("cls");
-    choiceMain();
+    return;
     break;
 
   default: //choice of destination is not within case 1 to case 5
@@ -174,7 +175,7 @@ void getTotalPrice(int ppd, int userDesti, Report (*report)[], int *total)
     printf("\n\t\t    You have reached the maximum capacity per transaction.");
     printf("\n\t\t\t\t Press any key to return MAIN.");
     _getch();
-    choiceMain();
+    return;
   }
 
   /*CHILDREN*/
@@ -216,7 +217,7 @@ void getTotalPrice(int ppd, int userDesti, Report (*report)[], int *total)
     printf("\n\t\t    You have reached the maximum capacity per transaction.");
     printf("\n\t\t\t\t Press any key to return MAIN.");
     _getch();
-    choiceMain();
+    return;
   }
   // MERGE TWO ARRAYS
   /* adultAge */
@@ -318,14 +319,46 @@ void getTotalPrice(int ppd, int userDesti, Report (*report)[], int *total)
     exit(1);
   }
 
+  int index = getIndex(dest_name[userDesti], report, total);
+
+  // testing
+  // printf("\nTESTING index = %d", index);
+  // printf("\nTESTING country = %s", (*report)[index].destination);
+
+  (*report)[index].quantity += count;
+
+  // printf("\nTESTING report[%d]", index);
   for (i = 0; i < count; i++)
   {
     fprintf(sales, "%-15s %-8d %-10.2f %.2f\n", dest_name[userDesti], age[i], ticketAmt[i], travelTax[i]);
     //fprintf(reserve, "\n%s\t%d\t%.2f\t\t%.2f", dest_name[userDesti],age[i],ticketAmt[i],travelTax[i]);
+
+    (*report)[index].amount += ticketAmt[i];
+    (*report)[index].tax += travelTax[i];
+
+    // testing
+    // printf("\nTESTING amount = %.2f", (*report)[index].amount);
+    // printf("\nTESTING tax = %.2f", (*report)[index].tax);
   }
   fclose(sales);
-
+  updateReport(report, total);
   return;
+}
+
+int getIndex(char *selectedDest, Report (*report)[], int *total)
+{
+  int index = 0;
+  int totalNum = *total;
+  for (int i = 0; i < *total; i++)
+  {
+    if (!strcmp(selectedDest, (*report)[i].destination))
+    {
+      return index;
+    }
+    index++;
+  }
+  printf("\nERROR: Can't find the selected country");
+  return 0;
 }
 
 void noReservation(Report (*report)[], int *total)
@@ -381,7 +414,7 @@ void noReservation(Report (*report)[], int *total)
   }
   else if (userDesti == dest_lines)
   {
-    choiceMain();
+    return;
   }
   else
   {
